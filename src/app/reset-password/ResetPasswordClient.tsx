@@ -92,11 +92,11 @@ const ResetPasswordClient = () => {
           <button
             type="submit"
             disabled={disabledBtn}
-            className={`px-4 py-2 text-xl font-bold rounded-lg cursor-pointer ${
-              disabledBtn ? "bg-gray-300" : "bg-white hover:bg-gray-200"
+            className={`px-4 py-2 text-xl font-bold rounded-lg cursor-pointer text-black ${
+              disabledBtn ? "bg-gray-300" : "bg-white"
             }`}
           >
-            {disabledBtn ? "Disabled" : "Submit"}
+            {disabledBtn ? "Disabledd" : "Submit"}
           </button>
         </form>
       )}
