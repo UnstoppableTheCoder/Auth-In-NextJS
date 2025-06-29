@@ -96,7 +96,7 @@ const ResetPasswordClient = () => {
               disabledBtn ? "bg-gray-300" : "bg-white"
             }`}
           >
-            {disabledBtn ? "Disabledd" : "Submit"}
+            {disabledBtn ? "Disabled" : "Submit"}
           </button>
         </form>
       )}
