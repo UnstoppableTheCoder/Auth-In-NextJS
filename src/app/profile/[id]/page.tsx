@@ -1,17 +1,22 @@
 "use client";
 
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-interface ProfilePageProps {
-  params: Promise<{ id: string }>;
-}
-
-const UserProfile = ({ params }: ProfilePageProps) => {
+const UserProfile = ({ params }: { params: Promise<{ id: string }> }) => {
+  const [id, setId] = useState<string>();
   const router = useRouter();
-  const { id } = params;
+
+  useEffect(() => {
+    async function setIdFun() {
+      const { id } = await params;
+      setId(id);
+    }
+
+    setIdFun();
+  }, [params]);
 
   const logout = async () => {
     try {
