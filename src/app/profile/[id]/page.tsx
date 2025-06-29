@@ -5,7 +5,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-const UserProfile = ({ params }: any) => {
+const UserProfile = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const { id } = params;
 
@@ -14,9 +14,14 @@ const UserProfile = ({ params }: any) => {
       await axios.get("/api/users/logout");
       router.push("/login");
       toast.success("Logged out successfully");
-    } catch (error: any) {
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error.response.data.error);
+        toast.error(error.response.data.error);
+      } else {
+        console.log("An unexpected error occurred");
+        toast.error("An unexpected error occurred");
+      }
     }
   };
 

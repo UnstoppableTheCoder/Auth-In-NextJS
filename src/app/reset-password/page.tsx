@@ -42,9 +42,14 @@ const ResetPasswordPage = () => {
       } else {
         toast.error("Passwords don't match");
       }
-    } catch (error: any) {
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error.response.data.error);
+        toast.error(error.response.data.error);
+      } else {
+        console.error(error);
+        toast.error("An unexpected error occurred.");
+      }
     } finally {
       setDisabledBtn(false);
     }

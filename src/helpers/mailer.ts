@@ -2,7 +2,13 @@ import User from "@/models/userModel";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 
-export default async function sendEmail({ email, emailType, userId }: any) {
+interface SendEmailOptions {
+  email: string;
+  emailType: "VERIFY" | "RESET";
+  userId: string;
+}
+
+export default async function sendEmail({ email, emailType, userId }: SendEmailOptions) {
   const token = crypto.randomBytes(32).toString("hex");
 
   if (emailType === "VERIFY") {

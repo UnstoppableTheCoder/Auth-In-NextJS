@@ -8,7 +8,9 @@ import Link from "next/link";
 
 const Profile = () => {
   const router = useRouter();
-  const [user, setUser] = useState("Nothing");
+  const [user, setUser] = useState<
+    { _id: string; isVerified: boolean } | "Nothing"
+  >("Nothing");
   const [readyToSend, setReadyToSend] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
@@ -19,9 +21,14 @@ const Profile = () => {
       setUser(response.data.user);
       toast.success(response.data.message);
       setReadyToSend(true);
-    } catch (error: any) {
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error.response.data.error);
+        toast.error(error.response.data.error);
+      } else {
+        console.log("An unexpected error occurred");
+        toast.error("An unexpected error occurred");
+      }
     }
   };
 
@@ -30,9 +37,14 @@ const Profile = () => {
       await axios.get("/api/users/logout");
       router.push("/login");
       toast.success("Logged out successfully");
-    } catch (error: any) {
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error.response.data.error);
+        toast.error(error.response.data.error);
+      } else {
+        console.log("An unexpected error occurred");
+        toast.error("An unexpected error occurred");
+      }
     }
   };
 
@@ -43,9 +55,14 @@ const Profile = () => {
         await axios.get(`/api/users/send-verification-email/${user._id}`);
         toast.success("User email sent successfully");
       }
-    } catch (error: any) {
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error.response.data.error);
+        toast.error(error.response.data.error);
+      } else {
+        console.log("An unexpected error occurred");
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       setIsSending(false);
       setReadyToSend(false);
@@ -74,7 +91,7 @@ const Profile = () => {
       >
         Logout
       </button>
-      {!user.isVerified && readyToSend && (
+      {user !== "Nothing" && !user.isVerified && readyToSend && (
         <button
           onClick={verifyEmail}
           className="bg-green-500 px-4 py-2 rounded font-bold hover:bg-green-600 absolute top-5 right-50 cursor-pointer"
