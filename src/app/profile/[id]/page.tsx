@@ -6,9 +6,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 interface ProfilePageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 const UserProfile = ({ params }: ProfilePageProps) => {
