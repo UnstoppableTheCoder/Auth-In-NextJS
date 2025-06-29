@@ -15,8 +15,11 @@ const ResetPasswordPage = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const urlToken = searchParams.get("token");
-    setToken(urlToken);
+    async function setTokenFun() {
+      const urlToken = await searchParams.get("token");
+      setToken(urlToken);
+    }
+    setTokenFun();
   }, [searchParams]);
 
   useEffect(() => {
