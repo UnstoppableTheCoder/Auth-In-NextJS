@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { LuLoaderPinwheel } from "react-icons/lu";
-import { useSession } from "next-auth/react";
 
 const VerifyEmail = () => {
   const [token, setToken] = useState("");
@@ -18,10 +17,16 @@ const VerifyEmail = () => {
       await axios.post("/api/users/verifyemail", { token });
       setVerified(true);
       toast.success("User is verified");
-    } catch (error: any) {
+    } catch (error: unknown) {
       setError(true);
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+      let message = "An unknown error occurred";
+
+      if (axios.isAxiosError(error) && error.response) {
+        message = error.message;
+      }
+
+      console.log(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }

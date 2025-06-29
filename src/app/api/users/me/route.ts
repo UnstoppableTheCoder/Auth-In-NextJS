@@ -19,7 +19,12 @@ export async function GET(request: NextRequest) {
       message: "User details fetched successfully",
       user,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    let message = "An unknown error occurred";
+
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

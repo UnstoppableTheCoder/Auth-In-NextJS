@@ -23,9 +23,15 @@ const LoginPage = () => {
       console.log("User loggedin: ", response.data);
       router.push("/profile");
       toast.success(response.data.message);
-    } catch (error: any) {
-      console.log(error.response?.data?.error);
-      toast.error(error.response?.data?.error);
+    } catch (error: unknown) {
+      let message = "An unknown error occurred";
+
+      if (axios.isAxiosError(error) && error.response) {
+        message = error.message;
+      }
+
+      console.log(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }

@@ -24,8 +24,15 @@ const SignupPage = () => {
       console.log("Signup success: ", response.data);
       router.push("/login");
       toast.success(response.data.message);
-    } catch (error: any) {
-      toast.error(error.response?.data?.error);
+    } catch (error: unknown) {
+      let message = "An unknown error occurred";
+
+      if (axios.isAxiosError(error) && error.response) {
+        message = error.message;
+      }
+
+      console.log(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
