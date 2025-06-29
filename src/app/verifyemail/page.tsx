@@ -12,26 +12,6 @@ const VerifyEmail = () => {
   const [verified, setVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const verifyToken = async () => {
-    try {
-      await axios.post("/api/users/verifyemail", { token });
-      setVerified(true);
-      toast.success("User is verified");
-    } catch (error: unknown) {
-      setError(true);
-      let message = "An unknown error occurred";
-
-      if (axios.isAxiosError(error) && error.response) {
-        message = error.message;
-      }
-
-      console.log(message);
-      toast.error(message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
     setIsLoading(true);
     const urlToken = window.location.search.split("=")[1];
@@ -39,6 +19,26 @@ const VerifyEmail = () => {
   }, []);
 
   useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        await axios.post("/api/users/verifyemail", { token });
+        setVerified(true);
+        toast.success("User is verified");
+      } catch (error: unknown) {
+        setError(true);
+        let message = "An unknown error occurred";
+
+        if (axios.isAxiosError(error) && error.response) {
+          message = error.message;
+        }
+
+        console.log(message);
+        toast.error(message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     if (token.length > 0) {
       verifyToken();
     }
