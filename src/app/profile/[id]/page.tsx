@@ -5,7 +5,13 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-const UserProfile = ({ params }: { params: { id: string } }) => {
+interface ProfilePageProps {
+  params: {
+    id: string;
+  };
+}
+
+const UserProfile = ({ params }: ProfilePageProps) => {
   const router = useRouter();
   const { id } = params;
 
